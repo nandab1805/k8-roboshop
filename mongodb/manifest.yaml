@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongodb
+  namespace: roboshop
+  labels:
+    app: mongodb
+    project: roboshop
+    tier: database
+spec:
+  # modify replicas according to your case
+  replicas: 1
+  selector:
+    matchLabels: #these labels are used to find the pods
+     app: mongodb
+     project: roboshop
+     tier: database
+  template: #pod definition
+    metadata:
+      labels: #these labels are pods labels
+        app: mongodb
+        project: roboshop
+        tier: database
+    spec:
+      containers:
+      - name: mongodb
+        image: nanda1805/mongodb:v1
+        imagePullPolicy: Always #Always, IfNotPresent, Never it will pull the image from the docker hub
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongodb
+  namespace: roboshop
+spec:
+  selector:
+    app: mongodb
+    project: roboshop
+    tier: database
+  ports:
+    - protocol: TCP
+      port: 27017 # Service Port
+      targetPort: 27017 # container Port
