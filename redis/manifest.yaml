@@ -24,7 +24,7 @@ spec:
     spec:
       containers:
       - name: redis
-        image: nanda1805/redis:v1
+        image: redis
         imagePullPolicy: Always #Always, IfNotPresent, Never it will pull the image from the docker hub
 ---
 apiVersion: v1
