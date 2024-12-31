@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: pod
+metadata:
+  name: debug
+  namespace: roboshop
+spec:
+  containers:
+  - name: mycontainer
+    image: nanda1805/debug:v1
+    cmd: ["sleep", "100000"]
