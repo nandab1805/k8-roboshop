@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis
+  namespace: roboshop
+  labels:
+    app: redis
+    project: roboshop
+    tier: database
+spec:
+  # modify replicas according to your case
+  replicas: 1
+  selector:
+    matchLabels: #these labels are used to find the pods
+     app: redis
+     project: roboshop
+     tier: database
+  template: #pod definition
+    metadata:
+      labels: #these labels are pods labels
+        app: redis
+        project: roboshop
+        tier: database
+    spec:
+      containers:
+      - name: redis
+        image: nanda1805/redis:v1
+        imagePullPolicy: Always #Always, IfNotPresent, Never it will pull the image from the docker hub
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis
+  namespace: roboshop
+spec:
+  selector:
+    app: redis
+    project: roboshop
+    tier: database
+  ports:
+    - protocol: TCP
+      port: 6379 # Service Port
+      targetPort: 6379 # container Port
