@@ -82,6 +82,9 @@ data:
         location = /50x.html {
           root   /usr/share/nginx/html;
         }
+        location /api/catalogue/ {
+        proxy_pass http://catalogue:8080/;
+        }
       }
     }
 
