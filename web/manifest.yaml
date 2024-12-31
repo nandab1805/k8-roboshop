@@ -111,13 +111,6 @@ spec:
         tier: web
     spec:
       containers:
-      volumes:
-      - name: nginx-conf
-        configMap:
-          name: web
-          items:
-            - key: nginx-conf
-              path: nginx.conf
       - name: web
         image: nanda1805/web:v1
         imagePullPolicy: Always #Always, IfNotPresent, Never it will pull the image from the docker hub
@@ -126,6 +119,13 @@ spec:
           mountPath: /etc/nginx/nginx.conf
           subPath: nginx.conf
           readOnly: true
+      volumes:
+      - name: nginx-conf
+        configMap:
+          name: web
+          items:
+            - key: nginx-conf
+              path: nginx.conf
 ---
 apiVersion: v1
 kind: Service
