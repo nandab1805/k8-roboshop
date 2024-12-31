@@ -3,7 +3,7 @@ kind: ConfigMap
 metadata:
   name: devops-config
 data:
-  nginx-conf: |
+  nginx.conf: |
     user www-data;
     worker_processes 4;
     pid /var/run/nginx.pid;
@@ -127,7 +127,7 @@ spec:
         configMap:
           name: web
           items:
-            - key: nginx-conf
+            - key: nginx.conf
               path: nginx.conf
 ---
 apiVersion: v1
