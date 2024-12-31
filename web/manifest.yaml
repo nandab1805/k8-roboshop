@@ -1,0 +1,49 @@
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web
+  namespace: roboshop
+  labels:
+    app: web
+    project: roboshop
+    tier: web
+spec:
+  # modify replicas according to your case
+  replicas: 1
+  selector:
+    matchLabels: #these labels are used to find the pods
+     app: web
+     project: roboshop
+     tier: web
+  template: #pod definition
+    metadata:
+      labels: #these labels are pods labels
+        app: web
+        project: roboshop
+        tier: web
+    spec:
+      containers:
+      - name: web
+        image: nanda1805/web:v1
+        imagePullPolicy: Always #Always, IfNotPresent, Never it will pull the image from the docker hub
+        # envFrom:
+        # - configMapRef:
+        #     name: web
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: web
+  namespace: roboshop
+spec:
+  type: LoadBalancer
+  selector:
+    app: web
+    project: roboshop
+    tier: web
+  ports:
+    - protocol: TCP
+      port: 80 # Service Port
+      targetPort: 80 # container Port
