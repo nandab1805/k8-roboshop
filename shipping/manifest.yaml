@@ -1,0 +1,56 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: shipping
+  namespace: roboshop
+data:
+  CART_ENDPOINT: "cart:8080"
+  DB_HOST: mysql
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shipping
+  namespace: roboshop
+  labels:
+    app: shipping
+    project: roboshop
+    tier: app
+spec:
+  # modify replicas according to your case
+  replicas: 1
+  selector:
+    matchLabels: #these labels are used to find the pods
+     app: shipping
+     project: roboshop
+     tier: app
+  template: #pod definition
+    metadata:
+      labels: #these labels are pods labels
+        app: shipping
+        project: roboshop
+        tier: app
+    spec:
+      containers:
+      - name: shipping
+        image: nanda1805/shipping:v1
+        imagePullPolicy: Always #Always, IfNotPresent, Never it will pull the image from the docker hub
+        envFrom:
+        - configMapRef:
+            name: shipping
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: shipping
+  namespace: roboshop
+spec:
+  selector:
+    app: shipping
+    project: roboshop
+    tier: app
+  ports:
+    - protocol: TCP
+      port: 8080 # Service Port
+      targetPort: 8080 # container Port
