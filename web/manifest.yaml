@@ -114,7 +114,7 @@ spec:
       - name: web
         image: nanda1805/web:v1
         imagePullPolicy: Always #Always, IfNotPresent, Never it will pull the image from the docker hub
-        volumemounts:
+        volumeMounts:
         - name: nginx-conf
           mountPath: /etc/nginx/nginx.conf
           subPath: nginx.conf
